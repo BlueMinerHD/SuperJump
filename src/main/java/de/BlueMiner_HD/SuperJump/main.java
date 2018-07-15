@@ -2,9 +2,7 @@ package de.BlueMiner_HD.SuperJump;
 
 import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.API.MySQL;
-import de.BlueMiner_HD.SuperJump.Commands.CMD_build;
-import de.BlueMiner_HD.SuperJump.Commands.CMD_setup;
-import de.BlueMiner_HD.SuperJump.Commands.CMD_start;
+import de.BlueMiner_HD.SuperJump.Commands.*;
 import de.BlueMiner_HD.SuperJump.Methoden.Files;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
@@ -50,8 +48,8 @@ public class main extends JavaPlugin {
         getCommand("setup").setExecutor(new CMD_setup());
         getCommand("build").setExecutor(new CMD_build());
         getCommand("start").setExecutor(new CMD_start());
-        /*getCommand("forcemap").setExecutor(new CMD_forcemap());
-        getCommand("stats").setExecutor(new CMD_stats());*/
+        getCommand("forcemap").setExecutor(new CMD_forcemap());
+        getCommand("stats").setExecutor(new CMD_stats());
     }
 
     private void registerClasses() {
