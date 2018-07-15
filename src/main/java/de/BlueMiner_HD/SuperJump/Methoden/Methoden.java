@@ -111,7 +111,26 @@ public class Methoden {
 
                     @Override
                     public void run() {
-                        if (LOBBYPHASE > 3) {
+                        if (LOBBYPHASE == 5) {
+                            for (Player all : player) {
+                                all.setLevel(LOBBYPHASE);
+                                BlueAPI.sendActionbar("§7Die Runde beginnt in §c" + LOBBYPHASE, all);
+                            }
+
+                            if (Methoden.map == null) {
+                                int rnd = BlueAPI.getRandom(voteMaps.size());
+
+                                Map map = voteMaps.get(rnd);
+
+                                Methoden.map = map;
+
+                                for(Player all : player) {
+                                    all.getInventory().setItem(0, null);
+                                }
+
+                            }
+
+                        } else if (LOBBYPHASE > 3) {
                             for (Player all : player) {
                                 all.setLevel(LOBBYPHASE);
                                 BlueAPI.sendActionbar("§7Die Runde beginnt in §c" + LOBBYPHASE, all);

@@ -1,6 +1,7 @@
 package de.BlueMiner_HD.SuperJump.API;
 
 import com.sun.jmx.snmp.daemon.CommunicationException;
+import de.BlueMiner_HD.SuperJump.main;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -79,7 +80,7 @@ public class MySQL {
 	}
 
 	public static File createNewFile(String filename) {
-		File f = new File("plugins/", filename);
+		File f = new File(main.getInstance().getDataFolder(), filename);
 		if (!f.exists()) {
 			try {
 				f.createNewFile();
@@ -92,7 +93,7 @@ public class MySQL {
 	}
 
 	public static File getFile(String filename) {
-		return new File("plugins/", filename);
+		return new File(main.getInstance().getDataFolder(), filename);
 	}
 
 	public static boolean exists(String filename) {

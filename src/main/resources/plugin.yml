@@ -1,4 +1,11 @@
-name: ${project.articactId}
-main: ${project.groupId}.${project.artifactId}.main
-version: ${project.version}
+name: SuperJump
+main: de.BlueMiner_HD.SuperJump.main
+version: 1.0-SNAPSHOT
 author: BlueMiner_HD
+
+commands:
+  build:
+  forcemap:
+  setup:
+  start:
+  stats:

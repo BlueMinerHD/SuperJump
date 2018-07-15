@@ -59,7 +59,7 @@ public class CMD_setup implements CommandExecutor {
             } else {
                 sendhelp(p);
             }
-        } else if(args.length == 3){
+        } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("addmap")) {
                 String map = args[1];
                 String name = args[2];
@@ -82,10 +82,19 @@ public class CMD_setup implements CommandExecutor {
                 }
                 Map map = Map.getMap(strmap);
 
-                if (map.getName().equals(name)) {
-                    p.sendMessage(main.getPrefix() + "§cDiese Map hat breits den Namen §e " + name + "§c!");
-                    return false;
+                try {
+                    if (map.getName().equals(name)) {
+                        p.sendMessage(main.getPrefix() + "§cDiese Map hat breits den Namen §e " + name + "§c!");
+                        return false;
+                    }
+                } catch (NullPointerException e) {
+
                 }
+
+                map.setName(name);
+
+                p.sendMessage(main.getPrefix() + "§aErfolgreich der Map " + strmap + " den Anzeigename " + name + " gegeben!");
+
 
             } else {
                 sendhelp(p);

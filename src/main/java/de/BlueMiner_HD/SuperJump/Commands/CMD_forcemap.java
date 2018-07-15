@@ -1,5 +1,6 @@
 package de.BlueMiner_HD.SuperJump.Commands;
 
+import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.Methoden.State;
@@ -58,6 +59,10 @@ public class CMD_forcemap implements CommandExecutor {
                 Methoden.map = Map.getMap(map);
                 Methoden.forcemap = p;
                 p.sendMessage(main.getPrefix() + "§aErfolgreich die Map " + map + " §aausgewählt!");
+
+                for (Player all : Methoden.player) {
+                    BlueAPI.sendTitle(all, "ForceMap", map);
+                }
 
                 /*for (Player all : Methoden.player) {
                     ScoreboardManager.updateLobbyScoreboard(all);

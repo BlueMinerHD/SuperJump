@@ -32,6 +32,10 @@ public class JoinListener implements Listener {
             }
             p.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM, (short) 0, 1).setDisplayName("§7§l« §8§lSpiel verlassen §7§l»").build());
 
+            if(Methoden.map == null){
+                p.getInventory().setItem(0, new ItemManager(Material.CHEST, (short) 0, 1).setDisplayName("§7§l« §8§lMap voting §7§l»").build());
+            }
+
             /*ScoreboardManager.setLobbyScoreboard(p);
             for (Player all : Bukkit.getOnlinePlayers()) {
                 ScoreboardManager.updateLobbyScoreboard(all);
