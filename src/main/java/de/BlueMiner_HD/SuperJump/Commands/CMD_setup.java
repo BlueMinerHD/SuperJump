@@ -1,5 +1,6 @@
 package de.BlueMiner_HD.SuperJump.Commands;
 
+import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.main;
 import org.bukkit.command.Command;
@@ -11,24 +12,88 @@ public class CMD_setup implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             return false;
         }
         Player p = (Player) sender;
-        if(!p.hasPermission("SuperJump.Setup")){
+        if (!p.hasPermission("SuperJump.Setup")) {
             p.sendMessage(main.getPrefix() + "§cKeine Rechte!");
             return false;
         }
 
-        if(args.length == 1) {
-            if(args[0].equalsIgnoreCase("Lobby")){
+        if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("Lobby")) {
                 Methoden.setLobbyLocation(p.getLocation());
                 p.sendMessage(main.getPrefix() + "§aErfolgreich die Lobby Location gesetzt!");
             } else {
                 sendhelp(p);
             }
-        }
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("addMap")) {
+                String map = args[1];
 
+                if (Map.existis(map)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map existiert bereits!");
+                    return false;
+                }
+
+                new Map(map);
+                p.sendMessage(main.getPrefix() + "§aErfolgreich die Map §e " + map + " §aerstellt!");
+            } else if (args[0].equalsIgnoreCase("spawn")) {
+
+                String mapname = args[1];
+
+                if (!Map.existis(mapname)) {
+                    p.sendMessage(main.getPrefix() + "§cDie Map §e" + mapname + " §cexistiert nicht!");
+                    return false;
+                }
+
+                Map map = Map.getMap(mapname);
+                map.setSpawn(p.getLocation());
+
+
+                p.sendMessage(main.getPrefix() + "§aErfolgreich den Spawn §afür die Map §e"
+                        + mapname + " §agesetzt!");
+
+
+            } else {
+                sendhelp(p);
+            }
+        } else if(args.length == 3){
+            if (args[0].equalsIgnoreCase("addmap")) {
+                String map = args[1];
+                String name = args[2];
+
+                if (Map.existis(map)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map existiert bereits!");
+                    return false;
+                }
+
+                new Map(map, name);
+                p.sendMessage(main.getPrefix() + "§aErfolgreich die Map §e " + map + " §a mit dem Namen §e" + name
+                        + " §aerstellt!");
+            } else if (args[0].equalsIgnoreCase("setName")) {
+                String strmap = args[1];
+                String name = args[2];
+
+                if (!Map.existis(strmap)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map existiert nicht!");
+                    return false;
+                }
+                Map map = Map.getMap(strmap);
+
+                if (map.getName().equals(name)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map hat breits den Namen §e " + name + "§c!");
+                    return false;
+                }
+
+            } else {
+                sendhelp(p);
+            }
+
+        } else {
+            sendhelp(p);
+        }
 
 
         return false;
