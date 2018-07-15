@@ -1,0 +1,4 @@
+name: ${project.articactId}
+main: ${project.groupId}.${project.artifactId}.main
+version: ${project.version}
+author: BlueMiner_HD
