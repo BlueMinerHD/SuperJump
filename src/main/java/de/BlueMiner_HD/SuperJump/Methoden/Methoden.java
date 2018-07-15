@@ -18,6 +18,7 @@ public class Methoden {
 
     public static List<Player> build = new ArrayList<>();
     public static List<Player> player = new ArrayList<>();
+    public static List<Player> spectator = new ArrayList<>();
     public static List<Map> voteMaps = new ArrayList<>();
 
     public static String lobbyserver = "Lobby01";

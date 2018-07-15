@@ -3,13 +3,16 @@ package de.BlueMiner_HD.SuperJump;
 import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.API.MySQL;
 import de.BlueMiner_HD.SuperJump.Commands.*;
+import de.BlueMiner_HD.SuperJump.Listener.JoinListener;
 import de.BlueMiner_HD.SuperJump.Methoden.Files;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
+import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class main extends JavaPlugin {
@@ -40,6 +43,10 @@ public class main extends JavaPlugin {
     }
 
     private void registerEvents() {
+        PluginManager pm = Bukkit.getPluginManager();
+
+        pm.registerEvents(new JoinListener(), this);
+
     }
 
 
