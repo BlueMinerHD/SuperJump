@@ -33,17 +33,25 @@ public class main extends JavaPlugin {
             Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(1)), 0);
             Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(2)), 0);
         } else {
-            int rnd = BlueAPI.getRandom(Map.getMaps().size());
+            randomMap2();
+        }
+    }
 
-            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(rnd)), 0);
+    private static void randomMap2() {
+        int rnd = BlueAPI.getRandom(Map.getMaps().size());
 
-            rnd = BlueAPI.getRandom(Map.getMaps().size());
+        Map map = Map.getMap(Map.getMaps().get(rnd));
 
-            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(rnd)), 0);
+        if (Methoden.voteMaps.containsKey(map)) {
+            randomMap2();
+        } else {
 
-            rnd = BlueAPI.getRandom(Map.getMaps().size());
+            Methoden.voteMaps.put(map, 0);
 
-            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(rnd)), 0);
+            if (Methoden.voteMaps.size() < 3) {
+                randomMap2();
+            }
+
         }
     }
 

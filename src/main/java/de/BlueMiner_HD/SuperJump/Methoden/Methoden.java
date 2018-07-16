@@ -2,10 +2,7 @@ package de.BlueMiner_HD.SuperJump.Methoden;
 
 import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.main;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
@@ -20,9 +17,11 @@ public class Methoden {
     public static List<Player> player = new ArrayList<>();
     public static List<Player> disconect = new ArrayList<>();
     public static List<Player> spectator = new ArrayList<>();
-    public static List<Player> votet = new ArrayList<>();
     public static HashMap<Map, Integer> voteMaps = new HashMap<>();
     public static HashMap<Integer, Map> voteMapPosition = new HashMap<>();
+    public static HashMap<Player, Map> votet = new HashMap<>();
+    public static HashMap<Player, Location> lastCheckpoint = new HashMap<>();
+    public static HashMap<Player, Integer> lastCheckpointInt = new HashMap<>();
     public static String lobbyserver = "Lobby01";
     public static Player forcemap = null;
     public static Map map;
@@ -153,13 +152,13 @@ public class Methoden {
                                 all.setLevel(LOBBYPHASE);
                                 all.playSound(all.getLocation(), Sound.NOTE_BASS, 100, 1);
                                 BlueAPI.sendActionbar("§7Die Runde beginnt in §c" + LOBBYPHASE, all);
-                                BlueAPI.sendTitle(all, "§c" + LOBBYPHASE, null);
+                                BlueAPI.sendTitle(all, "§c" + LOBBYPHASE, " ");
                             }
 
                         } else if (LOBBYPHASE == 0) {
                             for (Player all : player) {
                                 all.setLevel(0);
-                                BlueAPI.sendTitle(all, "", null);
+                                BlueAPI.sendTitle(all, " ", " ");
                                 BlueAPI.sendActionbar("§7Die Runde startet nun§8. §7Ihr werdet nun teleportiert§8.",
                                         all);
                                 resetPLayer(all);
@@ -169,6 +168,9 @@ public class Methoden {
                             Map map = Methoden.map;
                             for (Player all : player) {
                                 all.teleport(map.getSpawn());
+                                all.getInventory().setItem(0, new ItemManager(Material.GOLD_PLATE, (short) 0, 1).
+                                        setDisplayName("§7§l« §8§lTelepoerter §7§l»").addLoreLine("§8Telepoertiere dich zum letzten Checkpoint").build());
+                                all.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM, (short) 0, 1).setDisplayName("§7§l« §8§lSpiel verlassen §7§l»").build());
                                 //ScoreboardManager.setIngameScoreboard(all);
                                 i++;
 
@@ -183,6 +185,7 @@ public class Methoden {
     }
 
     public static void startNOMOVEPhase() {
+        Methoden.setState(State.INGAME);
 
     }
 

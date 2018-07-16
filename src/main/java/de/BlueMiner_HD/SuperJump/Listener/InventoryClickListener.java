@@ -28,7 +28,7 @@ public class InventoryClickListener implements Listener {
             ItemStack item = e.getCurrentItem();
             if (inv != null && item != null) {
                 if (inv.getName().equals("§7§l« §8§lMap voting §7§l»")) {
-                    if (!Methoden.votet.contains(p)) {
+                    if (!Methoden.votet.containsKey(p)) {
                         if (e.getSlot() == 2) {
                             Map map = Methoden.voteMapPosition.get(0);
                             int votes = Methoden.voteMaps.get(map);
@@ -36,7 +36,7 @@ public class InventoryClickListener implements Listener {
 
                             p.closeInventory();
                             p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
-                            Methoden.votet.add(p);
+                            Methoden.votet.put(p, map);
 
                         } else if (e.getSlot() == 3) {
                             Map map = Methoden.voteMapPosition.get(0);
@@ -45,7 +45,7 @@ public class InventoryClickListener implements Listener {
 
                             p.closeInventory();
                             p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
-                            Methoden.votet.add(p);
+                            Methoden.votet.put(p, map);
                         } else if (e.getSlot() == 4) {
                             Map map = Methoden.voteMapPosition.get(1);
                             int votes = Methoden.voteMaps.get(map);
@@ -53,7 +53,7 @@ public class InventoryClickListener implements Listener {
 
                             p.closeInventory();
                             p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
-                            Methoden.votet.add(p);
+                            Methoden.votet.put(p, map);
                         } else if (e.getSlot() == 5) {
                             Map map = Methoden.voteMapPosition.get(1);
                             int votes = Methoden.voteMaps.get(map);
@@ -61,7 +61,7 @@ public class InventoryClickListener implements Listener {
 
                             p.closeInventory();
                             p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
-                            Methoden.votet.add(p);
+                            Methoden.votet.put(p, map);
                         } else if (e.getSlot() == 6) {
                             Map map = Methoden.voteMapPosition.get(2);
                             int votes = Methoden.voteMaps.get(map);
@@ -69,10 +69,10 @@ public class InventoryClickListener implements Listener {
 
                             p.closeInventory();
                             p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
-                            Methoden.votet.add(p);
+                            Methoden.votet.put(p, map);
                         }
                     } else {
-                        p.sendMessage(main.getPrefix() + "§cDu hast bereits abgestimmt");
+                        p.sendMessage(main.getPrefix() + "§cDu hast bereits abgestimmt!");
                     }
                 }
             }

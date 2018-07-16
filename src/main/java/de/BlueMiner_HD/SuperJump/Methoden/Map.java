@@ -126,4 +126,12 @@ public class Map {
                 setDisplayName(getItemDisplayName()).addLoreLine("§3Votes: " + Methoden.voteMaps.get(this)).build();
     }
 
+    public void setCheckpoint(Location loc, int i) {
+        BlueAPI.saveLocation(loc, Files.getConfig().getName(), getMap() + ".checkpoint. " + i);
+    }
+
+    public Location getCheckpoint(int i) {
+        return BlueAPI.getLocation(Files.getConfig().getName(), getMap() + ".checkpoint. " + i);
+    }
+
 }

@@ -1,5 +1,6 @@
 package de.BlueMiner_HD.SuperJump.Listener;
 
+import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.Methoden.State;
 import org.bukkit.Bukkit;
@@ -26,6 +27,15 @@ public class QuitListener implements Listener {
             /*for (Player all : Bukkit.getOnlinePlayers()) {
                 ScoreboardManager.updateLobbyScoreboard(all);
             }*/
+            if (Methoden.votet.containsKey(p)) {
+                Map map = Methoden.votet.get(p);
+
+                int votes = Methoden.voteMaps.get(map);
+                Methoden.voteMaps.put(map, votes - 1);
+
+                Methoden.votet.remove(p);
+            }
+
             if (Methoden.forcemap == p) {
                 Methoden.forcemap = null;
             }
