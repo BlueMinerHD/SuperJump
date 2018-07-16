@@ -17,7 +17,6 @@ public class LoginListener implements Listener {
         Player p = e.getPlayer();
 
 
-
         if (Methoden.getState() == State.LOBBYPHASE) {
             if (Bukkit.getOnlinePlayers().size() >= 2) {
                 if (p.hasPermission("SuperJump.JoinFullServer")) {
@@ -26,7 +25,7 @@ public class LoginListener implements Listener {
                             Methoden.disconect.add(all);
                             Methoden.player.remove(all);
                             Bukkit.broadcastMessage("§8[§c-§8] §7" + all.getName());
-                            all.sendMessage(main.getPrefix() + "§cDu wurdest von einem Premium Spieler gekickt! Kaufe dir Premium damit du nicht mehr gekickt werden kannst!");
+                            all.kickPlayer(main.getPrefix() + "§cDu wurdest von einem Premium Spieler gekickt! Kaufe dir Premium damit du nicht mehr gekickt werden kannst!");
                             BlueAPI.connect(all, Methoden.lobbyserver);
 
                             e.allow();

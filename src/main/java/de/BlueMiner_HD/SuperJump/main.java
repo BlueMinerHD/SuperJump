@@ -20,94 +20,30 @@ public class main extends JavaPlugin {
     private static main instance;
     private static String prefix = "§6§lSuperJump §8× §7";
 
-    @Override
-    public void onEnable() {
-        instance = this;
-
-        registerClasses();
-        registerCommands();
-        if (!Map.getMaps().isEmpty()) {
-            randomMap();
-            resetWorld();
-            registerEvents();
-        }
-    }
-
-
-    @Override
-    public void onDisable() {
-        if(MySQL.isConnected()) {
-            MySQL.close();
-        }
-
-    }
-
-    private void registerEvents() {
-        PluginManager pm = Bukkit.getPluginManager();
-
-        pm.registerEvents(new JoinListener(), this);
-        pm.registerEvents(new LoginListener(), this);
-        pm.registerEvents(new QuitListener(), this);
-
-        pm.registerEvents(new MoveListener(), this);
-        pm.registerEvents(new DamageListener(), this);
-        pm.registerEvents(new BlockListener(), this);
-        pm.registerEvents(new WeatherChangeListener(), this);
-        pm.registerEvents(new FoodLevelChangeListener(), this);
-        pm.registerEvents(new EntitySpawnListener(), this);
-        /*pm.registerEvents(new ExplodeEventListener(), this);
-        pm.registerEvents(new PickupItemListener(), this);
-        pm.registerEvents(new DropItemListener(), this);
-        pm.registerEvents(new DeathListener(), this);
-        pm.registerEvents(new InteractListener(), this);
-        pm.registerEvents(new InteractAtEntityListener(), this);
-        pm.registerEvents(new VelocityListener(), this);
-        pm.registerEvents(new InventoryClickListener(), this);*/
-
-    }
-
-
-    private void registerCommands() {
-
-        getCommand("setup").setExecutor(new CMD_setup());
-        getCommand("build").setExecutor(new CMD_build());
-        getCommand("start").setExecutor(new CMD_start());
-        getCommand("forcemap").setExecutor(new CMD_forcemap());
-        getCommand("stats").setExecutor(new CMD_stats());
-    }
-
-    private void registerClasses() {
-        MySQL.loadMySQLFiles();
-        Files.loadLocations();
-
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-    }
-
     public static void randomMap() {
 
         if (Map.getMaps().size() == 1) {
             Methoden.map = Map.getMap(Map.getMaps().get(0));
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(0)));
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(0)), 0);
         } else if (Map.getMaps().size() == 2) {
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(0)));
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(1)));
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(0)), 0);
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(1)), 0);
         } else if (Map.getMaps().size() == 3) {
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(0)));
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(1)));
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(2)));
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(0)), 0);
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(1)), 0);
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(2)), 0);
         } else {
             int rnd = BlueAPI.getRandom(Map.getMaps().size());
 
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(rnd)));
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(rnd)), 0);
 
             rnd = BlueAPI.getRandom(Map.getMaps().size());
 
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(rnd)));
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(rnd)), 0);
 
             rnd = BlueAPI.getRandom(Map.getMaps().size());
 
-            Methoden.voteMaps.add(Map.getMap(Map.getMaps().get(rnd)));
+            Methoden.voteMaps.put(Map.getMap(Map.getMaps().get(rnd)), 0);
         }
     }
 
@@ -161,5 +97,63 @@ public class main extends JavaPlugin {
 
     public static String getPrefix() {
         return prefix;
+    }
+
+    @Override
+    public void onEnable() {
+        instance = this;
+
+        registerClasses();
+        registerCommands();
+        if (!Map.getMaps().isEmpty()) {
+            randomMap();
+            resetWorld();
+            registerEvents();
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        if (MySQL.isConnected()) {
+            MySQL.close();
+        }
+
+    }
+
+    private void registerEvents() {
+        PluginManager pm = Bukkit.getPluginManager();
+
+        pm.registerEvents(new JoinListener(), this);
+        pm.registerEvents(new LoginListener(), this);
+        pm.registerEvents(new QuitListener(), this);
+        pm.registerEvents(new MoveListener(), this);
+        pm.registerEvents(new DamageListener(), this);
+        pm.registerEvents(new BlockListener(), this);
+        pm.registerEvents(new WeatherChangeListener(), this);
+        pm.registerEvents(new FoodLevelChangeListener(), this);
+        pm.registerEvents(new EntitySpawnListener(), this);
+        pm.registerEvents(new PickupItemListener(), this);
+        pm.registerEvents(new DropItemListener(), this);
+        pm.registerEvents(new InteractListener(), this);
+        pm.registerEvents(new InteractAtEntityListener(), this);
+        pm.registerEvents(new InventoryClickListener(), this);
+
+    }
+
+    private void registerCommands() {
+
+        getCommand("setup").setExecutor(new CMD_setup());
+        getCommand("build").setExecutor(new CMD_build());
+        getCommand("start").setExecutor(new CMD_start());
+        getCommand("forcemap").setExecutor(new CMD_forcemap());
+        getCommand("stats").setExecutor(new CMD_stats());
+    }
+
+    private void registerClasses() {
+        MySQL.loadMySQLFiles();
+        Files.loadLocations();
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
     }
 }

@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.CreeperPowerEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class BlockListener implements Listener {
@@ -46,6 +47,11 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent e) {
         e.blockList().clear();
+    }
+
+    @EventHandler
+    public void oncreeper(CreeperPowerEvent e) {
+        e.setCancelled(true);
     }
 
 

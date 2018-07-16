@@ -10,23 +10,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Methoden {
-
-    private static State state = State.LOBBYPHASE;
 
     public static List<Player> build = new ArrayList<>();
     public static List<Player> player = new ArrayList<>();
     public static List<Player> disconect = new ArrayList<>();
     public static List<Player> spectator = new ArrayList<>();
-    public static List<Map> voteMaps = new ArrayList<>();
-
+    public static HashMap<Map, Integer> voteMaps = new HashMap<>();
     public static String lobbyserver = "Lobby01";
-
     public static Player forcemap = null;
-
     public static Map map;
+    public static int p1;
+    public static int LOBBYPHASECANCEL;
+    public static int LOBBYPHASE = 60;
+    public static int RESTARTCANCEL;
+    public static int RESTART = 10;
+    private static State state = State.LOBBYPHASE;
+    private static int animation = 0;
+    private static int schutzphase = 10;
 
     public static State getState() {
         return state;
@@ -35,7 +40,6 @@ public class Methoden {
     public static void setState(State state) {
         Methoden.state = state;
     }
-
 
     public static void resetPLayer(Player p) {
         p.setLevel(0);
@@ -57,19 +61,13 @@ public class Methoden {
         p.setGameMode(GameMode.SURVIVAL);
     }
 
-    public static void setLobbyLocation(Location loc) {
-        BlueAPI.saveLocation(loc, Files.getConfig().getName(), "Lobby");
-    }
-
     public static Location getLobbyLocation() {
         return BlueAPI.getLocation(Files.getConfig().getName(), "Lobby");
     }
 
-    public static int p1;
-    private static int animation = 0;
-    public static int LOBBYPHASECANCEL;
-    public static int LOBBYPHASE = 60;
-
+    public static void setLobbyLocation(Location loc) {
+        BlueAPI.saveLocation(loc, Files.getConfig().getName(), "Lobby");
+    }
 
     public static void startLobbyphase() {
 
@@ -119,14 +117,26 @@ public class Methoden {
                             }
 
                             if (Methoden.map == null) {
-                                int rnd = BlueAPI.getRandom(voteMaps.size());
 
-                                Map map = voteMaps.get(rnd);
+                                List<Map> sortMap = new ArrayList<>();
 
-                                Methoden.map = map;
+                                List<Integer> l = new ArrayList<>(voteMaps.values());
 
-                                for(Player all : player) {
+                                Collections.sort(l);
+
+                                for (int i = l.size(); i != 0; i--) {
+                                    for (Map p : voteMaps.keySet()) {
+                                        if (l.get(i - 1) == voteMaps.get(p)) {
+                                            sortMap.add(p);
+                                        }
+                                    }
+                                }
+
+                                Methoden.map = sortMap.get(0);
+
+                                for (Player all : player) {
                                     all.getInventory().setItem(0, null);
+                                    BlueAPI.sendTitle(all, "Map voting beendet", Methoden.map.getName());
                                 }
 
                             }
@@ -170,14 +180,9 @@ public class Methoden {
         }
     }
 
-    private static int schutzphase = 10;
-
     public static void startNOMOVEPhase() {
 
     }
-
-    public static int RESTARTCANCEL;
-    public static int RESTART = 10;
 
     public static void end() {
     }
