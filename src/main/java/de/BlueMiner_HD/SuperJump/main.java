@@ -3,7 +3,7 @@ package de.BlueMiner_HD.SuperJump;
 import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.API.MySQL;
 import de.BlueMiner_HD.SuperJump.Commands.*;
-import de.BlueMiner_HD.SuperJump.Listener.JoinListener;
+import de.BlueMiner_HD.SuperJump.Listener.*;
 import de.BlueMiner_HD.SuperJump.Methoden.Files;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
@@ -46,6 +46,23 @@ public class main extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new JoinListener(), this);
+        pm.registerEvents(new LoginListener(), this);
+        pm.registerEvents(new QuitListener(), this);
+
+        pm.registerEvents(new MoveListener(), this);
+        pm.registerEvents(new DamageListener(), this);
+        pm.registerEvents(new BlockListener(), this);
+        pm.registerEvents(new WeatherChangeListener(), this);
+        pm.registerEvents(new FoodLevelChangeListener(), this);
+        pm.registerEvents(new EntitySpawnListener(), this);
+        /*pm.registerEvents(new ExplodeEventListener(), this);
+        pm.registerEvents(new PickupItemListener(), this);
+        pm.registerEvents(new DropItemListener(), this);
+        pm.registerEvents(new DeathListener(), this);
+        pm.registerEvents(new InteractListener(), this);
+        pm.registerEvents(new InteractAtEntityListener(), this);
+        pm.registerEvents(new VelocityListener(), this);
+        pm.registerEvents(new InventoryClickListener(), this);*/
 
     }
 

@@ -38,7 +38,7 @@ public class CMD_setup implements CommandExecutor {
                 }
 
                 new Map(map);
-                p.sendMessage(main.getPrefix() + "§aErfolgreich die Map §e " + map + " §aerstellt!");
+                p.sendMessage(main.getPrefix() + "§aErfolgreich die Map §e" + map + " §aerstellt!");
             } else if (args[0].equalsIgnoreCase("spawn")) {
 
                 String mapname = args[1];
@@ -70,7 +70,7 @@ public class CMD_setup implements CommandExecutor {
                 }
 
                 new Map(map, name);
-                p.sendMessage(main.getPrefix() + "§aErfolgreich die Map §e " + map + " §a mit dem Namen §e" + name
+                p.sendMessage(main.getPrefix() + "§aErfolgreich die Map §e" + map + " §a mit dem Namen §e" + name
                         + " §aerstellt!");
             } else if (args[0].equalsIgnoreCase("setName")) {
                 String strmap = args[1];

@@ -18,6 +18,7 @@ public class Methoden {
 
     public static List<Player> build = new ArrayList<>();
     public static List<Player> player = new ArrayList<>();
+    public static List<Player> disconect = new ArrayList<>();
     public static List<Player> spectator = new ArrayList<>();
     public static List<Map> voteMaps = new ArrayList<>();
 
@@ -175,4 +176,9 @@ public class Methoden {
 
     }
 
+    public static int RESTARTCANCEL;
+    public static int RESTART = 10;
+
+    public static void end() {
+    }
 }
