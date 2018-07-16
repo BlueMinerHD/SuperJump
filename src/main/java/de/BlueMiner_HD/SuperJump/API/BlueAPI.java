@@ -1,5 +1,6 @@
 package de.BlueMiner_HD.SuperJump.API;
 
+import de.BlueMiner_HD.SuperJump.Methoden.Files;
 import de.BlueMiner_HD.SuperJump.main;
 import net.minecraft.server.v1_8_R3.*;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
@@ -244,6 +245,8 @@ public class BlueAPI {
         yml.set(name + ".world", loc.getWorld().getName());
 
         saveFile(getFile(filename), yml);
+
+        Files.loadLocations();
 
     }
 

@@ -1,5 +1,6 @@
 package de.BlueMiner_HD.SuperJump.Commands;
 
+import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.main;
@@ -84,7 +85,7 @@ public class CMD_setup implements CommandExecutor {
 
                 try {
                     if (map.getName().equals(name)) {
-                        p.sendMessage(main.getPrefix() + "§cDiese Map hat breits den Namen §e " + name + "§c!");
+                        p.sendMessage(main.getPrefix() + "§cDiese Map hat breits den Namen §e" + name + "§c!");
                         return false;
                     }
                 } catch (NullPointerException e) {
@@ -93,10 +94,62 @@ public class CMD_setup implements CommandExecutor {
 
                 map.setName(name);
 
-                p.sendMessage(main.getPrefix() + "§aErfolgreich der Map " + strmap + " den Anzeigename " + name + " gegeben!");
+                p.sendMessage(main.getPrefix() + "§aErfolgreich der Map §e" + strmap + "§a den Anzeigename §e" + name + " gegeben!");
 
 
-            } else {
+            } else if (args[0].equalsIgnoreCase("setItemID")) {
+                String strmap = args[1];
+                String strid = args[2];
+
+                if (!BlueAPI.isNumber(strid)) {
+                    p.sendMessage(main.getPrefix() + "§c" + strid + " ist keine Zahl!");
+                }
+                int id = BlueAPI.getNumber(strid);
+
+                if (!Map.existis(strmap)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map existiert nicht!");
+                    return false;
+                }
+                Map map = Map.getMap(strmap);
+
+                map.setItemID(id);
+
+                p.sendMessage(main.getPrefix() + "§aDas Item der Map §e" + strmap + " §ahat jetzt die ID §e" + id);
+
+            } else if (args[0].equalsIgnoreCase("setItemSubID")) {
+                String strmap = args[1];
+                String strsubid = args[2];
+
+                if (!BlueAPI.isNumber(strsubid)) {
+                    p.sendMessage(main.getPrefix() + "§c" + strsubid + " ist keine Zahl!");
+                }
+                int subid = BlueAPI.getNumber(strsubid);
+
+                if (!Map.existis(strmap)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map existiert nicht!");
+                    return false;
+                }
+                Map map = Map.getMap(strmap);
+
+                map.setItemSubID(subid);
+
+                p.sendMessage(main.getPrefix() + "§aDas Item der Map §e" + strmap + " §ahat jetzt die SubID §e" + strsubid);
+
+            }  else if (args[0].equalsIgnoreCase("setItemDisplayName")) {
+                String strmap = args[1];
+                String displayname = args[2];
+
+                if (!Map.existis(strmap)) {
+                    p.sendMessage(main.getPrefix() + "§cDiese Map existiert nicht!");
+                    return false;
+                }
+                Map map = Map.getMap(strmap);
+
+                map.setItemDisplayName(displayname);
+
+                p.sendMessage(main.getPrefix() + "§aDas Item der Map §e" + strmap + " §ahat jetzt den Namen §e" + displayname);
+
+            }else {
                 sendhelp(p);
             }
 
@@ -114,6 +167,9 @@ public class CMD_setup implements CommandExecutor {
         p.sendMessage(main.getPrefix() + "§2/setup addMap <Name> [Anzeigename]§7| §2Füge eine Map hinzu");
         p.sendMessage(main.getPrefix() + "§2/setup setName <Map> <Name> §7| §2Setzte den Anzeigenamen einer Map");
         p.sendMessage(main.getPrefix() + "§2/setup spawn <Map> §7| §2Setze den Spawn der Map");
+        p.sendMessage(main.getPrefix() + "§2/setup setItemID <Map> <id> §7| §2Setze die ID des Items der Map");
+        p.sendMessage(main.getPrefix() + "§2/setup setItemSubID <Map> <subid> §7| §2Setze die SubID des Items der Map");
+        p.sendMessage(main.getPrefix() + "§2/setup setItemDisplayName <Map> <displayname> §7| §2Setze den Namen des Items der Map");
         p.sendMessage(main.getPrefix() + "§7------------§2Hilfe§7------------");
 
     }

@@ -46,6 +46,12 @@ public class ItemManager {
 		meta = item.getItemMeta();
 	}
 
+	@SuppressWarnings("deprecation")
+	public ItemManager(int id, short subid, int amount){
+		item = new ItemStack(id, amount, subid);
+		meta = item.getItemMeta();
+	}
+
 	public ItemManager setAmount(int value) {
 		item.setAmount(value);
 		return this;

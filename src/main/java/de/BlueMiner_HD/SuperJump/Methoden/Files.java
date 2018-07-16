@@ -1,6 +1,7 @@
 package de.BlueMiner_HD.SuperJump.Methoden;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -30,7 +31,11 @@ public class Files {
 	}
 
 	public static void saveYml() {
-		BlueAPI.saveFile(getConfig(), getConfigYml());
+		try {
+			configyml.save(config);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

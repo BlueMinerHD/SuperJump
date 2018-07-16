@@ -20,7 +20,9 @@ public class Methoden {
     public static List<Player> player = new ArrayList<>();
     public static List<Player> disconect = new ArrayList<>();
     public static List<Player> spectator = new ArrayList<>();
+    public static List<Player> votet = new ArrayList<>();
     public static HashMap<Map, Integer> voteMaps = new HashMap<>();
+    public static HashMap<Integer, Map> voteMapPosition = new HashMap<>();
     public static String lobbyserver = "Lobby01";
     public static Player forcemap = null;
     public static Map map;

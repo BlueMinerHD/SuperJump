@@ -2,6 +2,7 @@ package de.BlueMiner_HD.SuperJump.Listener;
 
 import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.Methoden.ItemManager;
+import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.Methoden.State;
 import org.bukkit.Bukkit;
@@ -13,6 +14,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InteractListener implements Listener {
 
@@ -73,7 +77,33 @@ public class InteractListener implements Listener {
                             Inventory inv = Bukkit.createInventory(null, 9, "§7§l« §8§lMap voting §7§l»");
 
                             if (Methoden.voteMaps.size() == 2) {
+                                List<Map> l = new ArrayList<>(Methoden.voteMaps.keySet());
+                                Map map = l.get(0);
+                                ItemStack itemmap = map.getItem();
+                                inv.setItem(3, itemmap);
+                                Methoden.voteMapPosition.put(0, map);
 
+                                Map map2 = l.get(1);
+                                ItemStack itemmap2 = map2.getItem();
+                                inv.setItem(5, itemmap2);
+                                Methoden.voteMapPosition.put(1, map2);
+
+                            } else {
+                                List<Map> l = new ArrayList<>(Methoden.voteMaps.keySet());
+                                Map map = l.get(0);
+                                ItemStack itemmap = map.getItem();
+                                inv.setItem(2, itemmap);
+                                Methoden.voteMapPosition.put(0, map);
+
+                                Map map2 = l.get(1);
+                                ItemStack itemmap2 = map2.getItem();
+                                inv.setItem(4, itemmap2);
+                                Methoden.voteMapPosition.put(1, map2);
+
+                                Map map3 = l.get(2);
+                                ItemStack itemmap3 = map3.getItem();
+                                inv.setItem(6, itemmap3);
+                                Methoden.voteMapPosition.put(2, map3);
                             }
                             p.openInventory(inv);
 

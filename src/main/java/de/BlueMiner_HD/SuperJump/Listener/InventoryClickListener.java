@@ -1,7 +1,9 @@
 package de.BlueMiner_HD.SuperJump.Listener;
 
+import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.Methoden.State;
+import de.BlueMiner_HD.SuperJump.main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,6 +24,59 @@ public class InventoryClickListener implements Listener {
         Player p = (Player) e.getWhoClicked();
 
         if (Methoden.getState() == State.LOBBYPHASE) {
+            Inventory inv = e.getClickedInventory();
+            ItemStack item = e.getCurrentItem();
+            if (inv != null && item != null) {
+                if (inv.getName().equals("§7§l« §8§lMap voting §7§l»")) {
+                    if (!Methoden.votet.contains(p)) {
+                        if (e.getSlot() == 2) {
+                            Map map = Methoden.voteMapPosition.get(0);
+                            int votes = Methoden.voteMaps.get(map);
+                            Methoden.voteMaps.put(map, votes + 1);
+
+                            p.closeInventory();
+                            p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
+                            Methoden.votet.add(p);
+
+                        } else if (e.getSlot() == 3) {
+                            Map map = Methoden.voteMapPosition.get(0);
+                            int votes = Methoden.voteMaps.get(map);
+                            Methoden.voteMaps.put(map, votes + 1);
+
+                            p.closeInventory();
+                            p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
+                            Methoden.votet.add(p);
+                        } else if (e.getSlot() == 4) {
+                            Map map = Methoden.voteMapPosition.get(1);
+                            int votes = Methoden.voteMaps.get(map);
+                            Methoden.voteMaps.put(map, votes + 1);
+
+                            p.closeInventory();
+                            p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
+                            Methoden.votet.add(p);
+                        } else if (e.getSlot() == 5) {
+                            Map map = Methoden.voteMapPosition.get(1);
+                            int votes = Methoden.voteMaps.get(map);
+                            Methoden.voteMaps.put(map, votes + 1);
+
+                            p.closeInventory();
+                            p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
+                            Methoden.votet.add(p);
+                        } else if (e.getSlot() == 6) {
+                            Map map = Methoden.voteMapPosition.get(2);
+                            int votes = Methoden.voteMaps.get(map);
+                            Methoden.voteMaps.put(map, votes + 1);
+
+                            p.closeInventory();
+                            p.sendMessage(main.getPrefix() + "§aErfolgreich für die Map §e" + map.getName() + " §aabgestimmt!");
+                            Methoden.votet.add(p);
+                        }
+                    } else {
+                        p.sendMessage(main.getPrefix() + "§cDu hast bereits abgestimmt");
+                    }
+                }
+            }
+
 
             if (Methoden.build.isEmpty()) {
                 e.setCancelled(true);
