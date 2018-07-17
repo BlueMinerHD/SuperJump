@@ -3,8 +3,11 @@ package de.BlueMiner_HD.SuperJump.Methoden;
 import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.main;
 import org.bukkit.*;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -185,10 +188,97 @@ public class Methoden {
     }
 
     public static void startNOMOVEPhase() {
-        Methoden.setState(State.INGAME);
+
+        setState(State.NOMOVE);
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                if (schutzphase == 10) {
+                    for (Player all : player) {
+                        all.sendMessage(main.getPrefix() + "§7SuperJump startet in §e" + schutzphase + " §7Sekunden");
+                    }
+                } else if (schutzphase == 5) {
+                    for (Player all : player) {
+                        all.sendMessage(main.getPrefix() + "§7SuperJump startet in §e" + schutzphase + " §7Sekunden");
+                    }
+                } else if (schutzphase == 4) {
+                    for (Player all : player) {
+                        all.sendMessage(main.getPrefix() + "§7SuperJump startet in §e" + schutzphase + " §7Sekunden");
+                    }
+                } else if (schutzphase > 0 && schutzphase < 4) {
+                    for (Player all : player) {
+                        all.sendMessage(main.getPrefix() + "§7SuperJump startet in §e" + schutzphase + " §7Sekunden");
+                        BlueAPI.sendTitle(all, "§c" + schutzphase, null);
+                    }
+
+                } else if (schutzphase == 0) {
+                    for (Player all : player) {
+                        BlueAPI.sendTitle(all, "", null);
+                        Stats.addPlayedGames(all, 1);
+                    }
+                    setState(State.INGAME);
+                    cancel();
+
+                }
+                schutzphase--;
+
+            }
+        }.runTaskTimer(main.getInstance(), 0, 20);
+
 
     }
 
-    public static void end() {
+    public static void end(final Player winner) {
+        setState(State.RESTART);
+
+        Stats.addwonGames(winner, 1);
+
+        Bukkit.broadcastMessage(main.getPrefix() + "§aDer Spieler §8" + winner.getName() + "§a hat gewonnen!");
+
+        RESTARTCANCEL = Bukkit.getScheduler().scheduleSyncRepeatingTask(main.getInstance(), new Runnable() {
+
+            @Override
+            public void run() {
+                if (RESTART > 3) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.setLevel(RESTART);
+                        BlueAPI.sendActionbar("§7Der Server startet in §c" + RESTART + "§7 neu", all);
+                    }
+                } else if (RESTART > 0) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.setLevel(RESTART);
+                        all.playSound(all.getLocation(), Sound.NOTE_BASS, 100, 1);
+                        BlueAPI.sendActionbar("§7Der Server startet in §c" + RESTART + "§7 neu", all);
+                        BlueAPI.sendTitle(all, "§c" + RESTART, null);
+                    }
+
+                } else if (RESTART == 0) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.setLevel(0);
+                        BlueAPI.sendTitle(all, "", null);
+                        BlueAPI.sendActionbar("§7Der Server startet nun neu§8. §7Ihr werdet nun teleportiert§8.", all);
+                        BlueAPI.connect(all, lobbyserver);
+                    }
+                    Bukkit.getScheduler().cancelTasks(main.getInstance());
+                    Bukkit.shutdown();
+                }
+
+                Firework fire = winner.getWorld().spawn(winner.getLocation(), Firework.class);
+
+                FireworkEffect effect = FireworkEffect.builder().withColor(Color.RED).flicker(true).trail(true)
+                        .withFade(Color.SILVER).with(FireworkEffect.Type.BURST).build();
+
+                FireworkMeta meta = fire.getFireworkMeta();
+                meta.addEffect(effect);
+                meta.setPower(3);
+                fire.setFireworkMeta(meta);
+                RESTART--;
+
+            }
+
+        }, 0, 20);
+
+
     }
 }

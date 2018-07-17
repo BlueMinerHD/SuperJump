@@ -53,14 +53,13 @@ public class MoveListener implements Listener {
                         Location loc = Methoden.map.getCheckpoint(i);
                         if (block.getLocation().distance(loc) < 1) {
                             if (zahl >= i) {
-                                p.sendMessage(main.getPrefix() + "§cBitte laufe nach vorne und nicht nach hinten!");
                                 return;
                             }
                             Methoden.lastCheckpoint.put(p, loc);
                             Methoden.lastCheckpointInt.put(p, i);
                             p.sendMessage(main.getPrefix() + "§aDu hast den Checkpoint §e" + i + " §aerreicht!");
                             if (i == 10) {
-                                Methoden.end();
+                                Methoden.end(p);
                             }
                             return;
 

@@ -1,5 +1,6 @@
 package de.BlueMiner_HD.SuperJump.Listener;
 
+import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.Methoden.State;
@@ -63,7 +64,12 @@ public class QuitListener implements Listener {
                 ScoreboardManager.updateIngameScoreboard(all);
             }*/
             if (Methoden.player.size() == 1) {
-                Methoden.end();
+                if (Methoden.getState() == State.NOMOVE) {
+                    BlueAPI.connect(Methoden.player.get(0), Methoden.lobbyserver);
+                    Bukkit.shutdown();
+                    return;
+                }
+                Methoden.end(p);
             } else if (Methoden.player.size() == 0) {
                 Bukkit.shutdown();
             }
@@ -84,6 +90,5 @@ public class QuitListener implements Listener {
             }
         }
     }
-
 
 }

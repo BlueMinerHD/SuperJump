@@ -5,6 +5,7 @@ import de.BlueMiner_HD.SuperJump.Methoden.ItemManager;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.Methoden.State;
+import de.BlueMiner_HD.SuperJump.main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,11 +15,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InteractListener implements Listener {
+
+    private HashMap<Player, Integer> time = new HashMap<>();
 
     @EventHandler
     private void onInteractListener(PlayerInteractEvent e) {
@@ -49,22 +54,19 @@ public class InteractListener implements Listener {
                 }
             }
         }
-        /*if (Methoden.getState() == State.INGAME) {
+        if (Methoden.getState() == State.INGAME) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (Methoden.player.contains(p)) {
                     ItemStack item = e.getItem();
-                    if (item != null && item.getType() == Material.ARROW) {
-                        int i = item.getAmount();
-                        i--;
-                        p.getInventory().setItemInHand(new ItemStack(Material.ARROW, i));
-                        Arrow a = p.launchProjectile(Arrow.class);
-                        a.setShooter(p);
-                        // a.setVelocity(p.getEyeLocation().getDirection().multiply(3));
+                    if (item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+                        if (item.getType() == Material.GOLD_PLATE
+                                && item.getItemMeta().getDisplayName().equals("§7§l« §8§lTelepoerter §7§l»")) {
+                            teleporter(p);
+                        }
                     }
                 }
             }
-        } else */
-        if (Methoden.getState() == State.LOBBYPHASE) {
+        } else if (Methoden.getState() == State.LOBBYPHASE) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (Methoden.player.contains(p)) {
                     ItemStack item = e.getItem();
@@ -112,6 +114,23 @@ public class InteractListener implements Listener {
                 }
 
             }
+        }
+    }
+
+    private void teleporter(final Player p) {
+
+        if (time.isEmpty() || !time.containsKey(p)) {
+            p.teleport(Methoden.lastCheckpoint.get(p));
+            time.put(p, 3);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    time.remove(p);
+
+                }
+            }.runTaskLaterAsynchronously(main.getInstance(), time.get(p) * 20);
+        } else {
+            p.sendMessage(main.getPrefix() + "§cDu kannst dich nur alle §e3 §cSekunden zum letzten Checkpoint teleportieren!");
         }
     }
 
