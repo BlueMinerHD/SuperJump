@@ -33,6 +33,7 @@ public class Methoden {
     public static int LOBBYPHASE = 60;
     public static int RESTARTCANCEL;
     public static int RESTART = 10;
+    public static int SHUTDOWNCANCEL;
     private static State state = State.LOBBYPHASE;
     private static int animation = 0;
     private static int schutzphase = 10;
@@ -261,7 +262,8 @@ public class Methoden {
                         BlueAPI.connect(all, lobbyserver);
                     }
                     Bukkit.getScheduler().cancelTasks(main.getInstance());
-                    Bukkit.shutdown();
+                    shutdown();
+
                 }
 
                 Firework fire = winner.getWorld().spawn(winner.getLocation(), Firework.class);
@@ -277,8 +279,27 @@ public class Methoden {
 
             }
 
+
         }, 0, 20);
 
+    }
 
+    private static void shutdown() {
+        if (Bukkit.getOnlinePlayers().size() != 0) {
+            if (!Bukkit.getScheduler().isQueued(SHUTDOWNCANCEL)) {
+                SHUTDOWNCANCEL = Bukkit.getScheduler().scheduleSyncDelayedTask(main.getInstance(), new Runnable() {
+
+                    @Override
+                    public void run() {
+                        for (Player all : Bukkit.getOnlinePlayers()) {
+                            BlueAPI.connect(all, lobbyserver);
+                        }
+                        shutdown();
+                        return;
+
+                    }
+                }, 200);
+            }
+        }
     }
 }

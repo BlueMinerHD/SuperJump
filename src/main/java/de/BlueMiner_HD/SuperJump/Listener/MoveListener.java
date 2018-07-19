@@ -28,6 +28,15 @@ public class MoveListener implements Listener {
 
         } else if (Methoden.getState() == State.INGAME) {
             Player p = e.getPlayer();
+
+            if (p.getLocation().getY() <= 0) {
+                if (Methoden.lastCheckpoint.get(p) == null) {
+                    p.teleport(Methoden.map.getSpawn());
+                } else {
+                    p.teleport(Methoden.lastCheckpoint.get(p));
+                }
+            }
+
             if (p.getLocation().getBlock().getType() == Material.GOLD_PLATE) {
                 Block block = p.getLocation().getBlock();
 

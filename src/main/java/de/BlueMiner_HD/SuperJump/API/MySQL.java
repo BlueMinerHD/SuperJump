@@ -80,6 +80,9 @@ public class MySQL {
 	}
 
 	public static File createNewFile(String filename) {
+
+		main.getInstance().getDataFolder().mkdir();
+
 		File f = new File(main.getInstance().getDataFolder(), filename);
 		if (!f.exists()) {
 			try {

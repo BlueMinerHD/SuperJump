@@ -4,6 +4,7 @@ import de.BlueMiner_HD.SuperJump.API.BlueAPI;
 import de.BlueMiner_HD.SuperJump.Methoden.Map;
 import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
 import de.BlueMiner_HD.SuperJump.main;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -174,14 +175,16 @@ public class CMD_setup implements CommandExecutor {
                 }
                 Map map = Map.getMap(strmap);
 
-                Block block = p.getTargetBlock((HashSet<Byte>) null, 6);
+                Location loc = p.getLocation();
+
+                Block block = loc.getBlock();
 
                 if(block.getType() != Material.GOLD_PLATE){
                     p.sendMessage(main.getPrefix() + "§cNur goldene Druckplatten können Checkpoints sein!");
                     return false;
                 }
 
-                map.setCheckpoint(block.getLocation(), i);
+                map.setCheckpoint(loc, i);
 
                 p.sendMessage(main.getPrefix() + "§aErfolgreich den Checkpoint §e" + i + " §aauf der Map §e" + strmap + "§a gesetzt");
 
@@ -206,7 +209,7 @@ public class CMD_setup implements CommandExecutor {
         p.sendMessage(main.getPrefix() + "§2/setup setItemID <Map> <id> §7| §2Setze die ID des Items der Map");
         p.sendMessage(main.getPrefix() + "§2/setup setItemSubID <Map> <subid> §7| §2Setze die SubID des Items der Map");
         p.sendMessage(main.getPrefix() + "§2/setup setItemDisplayName <Map> <displayname> §7| §2Setze den Namen des Items der Map");
-        p.sendMessage(main.getPrefix() + "§2/setup setCheckpoint <Map> <1-10> §7| §2Setze einen Checkpoint der Map (Die goldene Druckplatte auf die du schaust!)");
+        p.sendMessage(main.getPrefix() + "§2/setup setCheckpoint <Map> <1-10> §7| §2Setze einen Checkpoint der Map");
         p.sendMessage(main.getPrefix() + "§7------------§2Hilfe§7------------");
 
     }

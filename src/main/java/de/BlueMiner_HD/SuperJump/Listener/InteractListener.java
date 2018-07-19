@@ -23,7 +23,7 @@ import java.util.List;
 
 public class InteractListener implements Listener {
 
-    private HashMap<Player, Integer> time = new HashMap<>();
+    private static HashMap<Player, Integer> time = new HashMap<>();
 
     @EventHandler
     private void onInteractListener(PlayerInteractEvent e) {
@@ -117,10 +117,14 @@ public class InteractListener implements Listener {
         }
     }
 
-    private void teleporter(final Player p) {
+    public static void teleporter(final Player p) {
 
         if (time.isEmpty() || !time.containsKey(p)) {
-            p.teleport(Methoden.lastCheckpoint.get(p));
+            if (Methoden.lastCheckpoint.get(p) == null) {
+                p.teleport(Methoden.map.getSpawn());
+            } else {
+                p.teleport(Methoden.lastCheckpoint.get(p));
+            }
             time.put(p, 3);
             new BukkitRunnable() {
                 @Override

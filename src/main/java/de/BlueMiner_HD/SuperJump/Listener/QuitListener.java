@@ -66,12 +66,13 @@ public class QuitListener implements Listener {
             if (Methoden.player.size() == 1) {
                 if (Methoden.getState() == State.NOMOVE) {
                     BlueAPI.connect(Methoden.player.get(0), Methoden.lobbyserver);
-                    Bukkit.shutdown();
+                    Bukkit.getScheduler().cancelAllTasks();
                     return;
                 }
                 Methoden.end(p);
             } else if (Methoden.player.size() == 0) {
-                Bukkit.shutdown();
+                Bukkit.getScheduler().cancelAllTasks();
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
             }
         } else if (Methoden.getState() == State.RESTART) {
             if (Methoden.spectator.contains(p)) {
@@ -85,8 +86,8 @@ public class QuitListener implements Listener {
                 Methoden.player.remove(p);
             }
             if (Methoden.player.size() == 0) {
-                Bukkit.getScheduler().cancelTask(Methoden.RESTARTCANCEL);
-                Bukkit.shutdown();
+                Bukkit.getScheduler().cancelAllTasks();
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "stop");
             }
         }
     }
