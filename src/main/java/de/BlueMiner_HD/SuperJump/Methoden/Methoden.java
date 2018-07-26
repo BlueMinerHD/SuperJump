@@ -31,12 +31,14 @@ public class Methoden {
     public static int p1;
     public static int LOBBYPHASECANCEL;
     public static int LOBBYPHASE = 60;
-    public static int RESTARTCANCEL;
-    public static int RESTART = 10;
-    public static int SHUTDOWNCANCEL;
+    private static int RESTARTCANCEL;
+    private static int RESTART = 10;
+    private static int SHUTDOWNCANCEL;
     private static State state = State.LOBBYPHASE;
     private static int animation = 0;
     private static int schutzphase = 10;
+    public static int TimerCANCEL;
+    public static int Timer = 60;
 
     public static State getState() {
         return state;
@@ -72,6 +74,33 @@ public class Methoden {
 
     public static void setLobbyLocation(Location loc) {
         BlueAPI.saveLocation(loc, Files.getConfig().getName(), "Lobby");
+    }
+
+    public static double getDistanceEnd(Player p) {
+        return p.getLocation().distance(Methoden.map.getCheckpoint(10));
+    }
+
+    public static List<Map> getVotetMapsSort(){
+        if (Methoden.map == null) {
+
+            List<Map> sortMap = new ArrayList<>();
+
+            List<Integer> l = new ArrayList<>(voteMaps.values());
+
+            Collections.sort(l);
+
+            for (int i = l.size(); i != 0; i--) {
+                for (Map p : voteMaps.keySet()) {
+                    if (l.get(i - 1) == voteMaps.get(p)) {
+                        sortMap.add(p);
+                    }
+                }
+            }
+
+            return sortMap;
+
+        }
+        return null;
     }
 
     public static void startLobbyphase() {
@@ -123,21 +152,7 @@ public class Methoden {
 
                             if (Methoden.map == null) {
 
-                                List<Map> sortMap = new ArrayList<>();
-
-                                List<Integer> l = new ArrayList<>(voteMaps.values());
-
-                                Collections.sort(l);
-
-                                for (int i = l.size(); i != 0; i--) {
-                                    for (Map p : voteMaps.keySet()) {
-                                        if (l.get(i - 1) == voteMaps.get(p)) {
-                                            sortMap.add(p);
-                                        }
-                                    }
-                                }
-
-                                Methoden.map = sortMap.get(0);
+                                Methoden.map = getVotetMapsSort().get(0);
 
                                 for (Player all : player) {
                                     all.getInventory().setItem(0, null);
@@ -168,7 +183,6 @@ public class Methoden {
                                 resetPLayer(all);
                             }
                             Bukkit.getScheduler().cancelTask(LOBBYPHASECANCEL);
-                            int i = 1;
                             Map map = Methoden.map;
                             for (Player all : player) {
                                 all.teleport(map.getSpawn());
@@ -176,7 +190,6 @@ public class Methoden {
                                         setDisplayName("§7§l« §8§lTelepoerter §7§l»").addLoreLine("§8Telepoertiere dich zum letzten Checkpoint").build());
                                 all.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM, (short) 0, 1).setDisplayName("§7§l« §8§lSpiel verlassen §7§l»").build());
                                 //ScoreboardManager.setIngameScoreboard(all);
-                                i++;
 
                             }
                             startNOMOVEPhase();
@@ -188,7 +201,7 @@ public class Methoden {
         }
     }
 
-    public static void startNOMOVEPhase() {
+    private static void startNOMOVEPhase() {
 
         setState(State.NOMOVE);
         new BukkitRunnable() {
@@ -302,4 +315,42 @@ public class Methoden {
             }
         }
     }
+
+    public static void startTimer(){
+        TimerCANCEL = Bukkit.getScheduler().scheduleSyncRepeatingTask(main.getInstance(), new Runnable() {
+
+            @Override
+            public void run() {
+                if(getState() != State.INGAME){
+                    Bukkit.getScheduler().cancelTask(TimerCANCEL);
+                }
+                if (Timer > 0 && Timer < 3) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.setLevel(Timer);
+                        all.playSound(all.getLocation(), Sound.NOTE_BASS, 100, 1);
+                        BlueAPI.sendActionbar("§7Die Zeit läuft in §e" + Timer + "§7 Sekunden ab!", all);
+                    }
+
+                } else if (Timer == 0) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        all.setLevel(0);
+                        BlueAPI.sendTitle(all, "", null);
+                        BlueAPI.sendActionbar("§7Die Zeit ist abgelaufen!", all);
+                    }
+                    Bukkit.getScheduler().cancelTask(TimerCANCEL);
+                    endTimer();
+
+                }
+                Timer--;
+
+            }
+
+
+        }, 0, 20);
+    }
+
+    private static void endTimer() {
+
+    }
+
 }
