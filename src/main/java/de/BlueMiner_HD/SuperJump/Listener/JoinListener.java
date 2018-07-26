@@ -1,9 +1,7 @@
 package de.BlueMiner_HD.SuperJump.Listener;
 
-import de.BlueMiner_HD.SuperJump.Methoden.ItemManager;
-import de.BlueMiner_HD.SuperJump.Methoden.Methoden;
-import de.BlueMiner_HD.SuperJump.Methoden.State;
-import de.BlueMiner_HD.SuperJump.Methoden.Stats;
+import de.BlueMiner_HD.SuperJump.Methoden.*;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,10 +34,10 @@ public class JoinListener implements Listener {
                 p.getInventory().setItem(0, new ItemManager(Material.CHEST, (short) 0, 1).setDisplayName("§7§l« §8§lMap voting §7§l»").build());
             }
 
-            /*ScoreboardManager.setLobbyScoreboard(p);
-            for (Player all : Bukkit.getOnlinePlayers()) {
+            ScoreboardManager.setLobbyScoreboard(p);
+            for (Player all : Methoden.player) {
                 ScoreboardManager.updateLobbyScoreboard(all);
-            }*/
+            }
 
             Methoden.startLobbyphase();
 

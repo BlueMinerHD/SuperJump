@@ -124,7 +124,7 @@ public class ScoreboardManager {
         }
         map.addEntry(ChatColor.AQUA.toString());
 
-        obj.setDisplayName(main.getPrefix());
+        obj.setDisplayName("§6§lSuperJump");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         obj.getScore("").setScore(9);
@@ -148,45 +148,66 @@ public class ScoreboardManager {
         player.setSuffix("" + Methoden.player.size());
         player.addEntry(ChatColor.BLACK.toString());
 
-        Team kills = sb.registerNewTeam("kills");
-        kills.setPrefix(" §8♦ §e");
-        kills.setSuffix("" + 0);
-        kills.addEntry(ChatColor.BLUE.toString());
+        if (Methoden.player.size() != 2) {
+            new NullPointerException("Es müssen 2 Spieler online sein!");
+        }
 
-        Team leben = sb.registerNewTeam("leben");
-        leben.setPrefix(" §8♦ §e");
-        leben.setSuffix("" + 0);
-        leben.addEntry(ChatColor.AQUA.toString());
+        double dis1 = Methoden.round(Methoden.getDistanceEnd(Methoden.player.get(0)), 2);
+
+        Team distance1 = sb.registerNewTeam("distance1");
+        distance1.setPrefix(" §8♦ §e");
+        distance1.setSuffix("" + dis1);
+        distance1.addEntry(ChatColor.BLUE.toString());
+
+        double dis2 = Methoden.round(Methoden.getDistanceEnd(Methoden.player.get(1)), 2);
+
+        Team distance2 = sb.registerNewTeam("distance2");
+        distance2.setPrefix(" §8♦ §e");
+        distance2.setSuffix("" + dis2);
+        distance2.addEntry(ChatColor.AQUA.toString());
+
+        Team time = sb.registerNewTeam("time");
+        time.setPrefix(" §8♦ §e");
+        time.setSuffix("" + Methoden.Timer);
+        time.addEntry(ChatColor.RED.toString());
 
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName(main.getPrefix());
+        obj.setDisplayName("§6§lSuperJump");
 
-        obj.getScore("").setScore(9);
+
+        obj.getScore("").setScore(12);
+        obj.getScore("§7Time").setScore(11);
+        obj.getScore(ChatColor.RED.toString()).setScore(10);
+        obj.getScore(" ").setScore(9);
         obj.getScore("§7Spieler").setScore(8);
         obj.getScore(ChatColor.BLACK.toString()).setScore(7);
-        obj.getScore(" ").setScore(6);
-        obj.getScore("§7Kills").setScore(5);
+        obj.getScore("  ").setScore(6);
+        obj.getScore("§7" + Methoden.player.get(0).getName()).setScore(5);
         obj.getScore(ChatColor.BLUE.toString()).setScore(4);
-        obj.getScore("  ").setScore(3);
-        obj.getScore("§7Leben").setScore(2);
+        obj.getScore("   ").setScore(3);
+        obj.getScore("§7" + Methoden.player.get(1).getName()).setScore(2);
         obj.getScore(ChatColor.AQUA.toString()).setScore(1);
     }
 
     public static void updateIngameScoreboard(Player p) {
         if (Methoden.getState() == State.INGAME || Methoden.getState() == State.NOMOVE) {
             Scoreboard sb = p.getScoreboard();
+
+            sb.getTeam("time").setSuffix("" + Methoden.Timer);
+
             sb.getTeam("player").setSuffix("" + Methoden.player.size());
 
-            sb.getTeam("kills").setSuffix("" + 0);
 
-            sb.getTeam("leben").setSuffix("" + 0);
+            sb.getTeam("distance1").setSuffix("" + Methoden.round(Methoden.getDistanceEnd(Methoden.player.get(0)), 2));
+
+            sb.getTeam("distance2").setSuffix("" + Methoden.round(Methoden.getDistanceEnd(Methoden.player.get(1)), 2));
         }
     }
 
     public static void updateLobbyScoreboard(Player p) {
         if (Methoden.getState() == State.LOBBYPHASE) {
             Scoreboard sb = p.getScoreboard();
-            
+
             sb.getTeam("player").setSuffix("" + Methoden.player.size());
 
             if (Methoden.map == null) {

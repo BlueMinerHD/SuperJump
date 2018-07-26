@@ -31,14 +31,14 @@ public class Methoden {
     public static int p1;
     public static int LOBBYPHASECANCEL;
     public static int LOBBYPHASE = 60;
+    public static int TimerCANCEL;
+    public static int Timer = 60;
     private static int RESTARTCANCEL;
     private static int RESTART = 10;
     private static int SHUTDOWNCANCEL;
     private static State state = State.LOBBYPHASE;
     private static int animation = 0;
     private static int schutzphase = 10;
-    public static int TimerCANCEL;
-    public static int Timer = 60;
 
     public static State getState() {
         return state;
@@ -76,11 +76,20 @@ public class Methoden {
         BlueAPI.saveLocation(loc, Files.getConfig().getName(), "Lobby");
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     public static double getDistanceEnd(Player p) {
         return p.getLocation().distance(Methoden.map.getCheckpoint(10));
     }
 
-    public static List<Map> getVotetMapsSort(){
+    public static List<Map> getVotetMapsSort() {
         if (Methoden.map == null) {
 
             List<Map> sortMap = new ArrayList<>();
@@ -189,7 +198,7 @@ public class Methoden {
                                 all.getInventory().setItem(0, new ItemManager(Material.GOLD_PLATE, (short) 0, 1).
                                         setDisplayName("§7§l« §8§lTelepoerter §7§l»").addLoreLine("§8Telepoertiere dich zum letzten Checkpoint").build());
                                 all.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM, (short) 0, 1).setDisplayName("§7§l« §8§lSpiel verlassen §7§l»").build());
-                                //ScoreboardManager.setIngameScoreboard(all);
+                                ScoreboardManager.setIngameScoreboard(all);
 
                             }
                             startNOMOVEPhase();
@@ -202,7 +211,6 @@ public class Methoden {
     }
 
     private static void startNOMOVEPhase() {
-
         setState(State.NOMOVE);
         new BukkitRunnable() {
 
@@ -232,6 +240,7 @@ public class Methoden {
                         Stats.addPlayedGames(all, 1);
                     }
                     setState(State.INGAME);
+                    startTimer();
                     cancel();
 
                 }
@@ -316,13 +325,16 @@ public class Methoden {
         }
     }
 
-    public static void startTimer(){
+    public static void startTimer() {
         TimerCANCEL = Bukkit.getScheduler().scheduleSyncRepeatingTask(main.getInstance(), new Runnable() {
 
             @Override
             public void run() {
-                if(getState() != State.INGAME){
+                if (getState() != State.INGAME) {
                     Bukkit.getScheduler().cancelTask(TimerCANCEL);
+                }
+                for(Player all : Methoden.player) {
+                    ScoreboardManager.updateIngameScoreboard(all);
                 }
                 if (Timer > 0 && Timer < 3) {
                     for (Player all : Bukkit.getOnlinePlayers()) {
@@ -350,7 +362,14 @@ public class Methoden {
     }
 
     private static void endTimer() {
+        Player winner = null;
+        if(getDistanceEnd(Methoden.player.get(0)) < getDistanceEnd(Methoden.player.get(1))){
+            winner = Methoden.player.get(0);
+        } else {
+            winner = Methoden.player.get(1);
+        }
 
+        end(winner);
     }
 
 }

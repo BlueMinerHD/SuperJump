@@ -155,6 +155,7 @@ public class main extends JavaPlugin {
         getCommand("start").setExecutor(new CMD_start());
         getCommand("forcemap").setExecutor(new CMD_forcemap());
         getCommand("stats").setExecutor(new CMD_stats());
+        getCommand("test").setExecutor(new CMD_test());
     }
 
     private void registerClasses() {
