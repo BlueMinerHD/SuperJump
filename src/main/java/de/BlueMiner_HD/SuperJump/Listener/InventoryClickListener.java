@@ -77,15 +77,6 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-
-            if (Methoden.build.isEmpty()) {
-                e.setCancelled(true);
-                return;
-            }
-            if (!Methoden.build.contains(p)) {
-                e.setCancelled(true);
-                return;
-            }
         } else if (Methoden.spectator.contains(p)) {
             Inventory inv = e.getClickedInventory();
             ItemStack item = e.getCurrentItem();
@@ -103,15 +94,14 @@ public class InventoryClickListener implements Listener {
 
                 }
             }
-
-            if (Methoden.build.isEmpty()) {
-                e.setCancelled(true);
-                return;
-            }
-            if (!Methoden.build.contains(p)) {
-                e.setCancelled(true);
-                return;
-            }
+        }
+        if (Methoden.build.isEmpty()) {
+            e.setCancelled(true);
+            return;
+        }
+        if (!Methoden.build.contains(p)) {
+            e.setCancelled(true);
+            return;
         }
     }
 

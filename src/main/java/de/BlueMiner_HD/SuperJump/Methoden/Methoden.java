@@ -196,7 +196,7 @@ public class Methoden {
                             for (Player all : player) {
                                 all.teleport(map.getSpawn());
                                 all.getInventory().setItem(0, new ItemManager(Material.GOLD_PLATE, (short) 0, 1).
-                                        setDisplayName("§7§l« §8§lTelepoerter §7§l»").addLoreLine("§8Telepoertiere dich zum letzten Checkpoint").build());
+                                        setDisplayName("§7§l« §8§lTeleporter §7§l»").addLoreLine("§8Teleportiere dich zum letzten Checkpoint").build());
                                 all.getInventory().setItem(8, new ItemManager(Material.MAGMA_CREAM, (short) 0, 1).setDisplayName("§7§l« §8§lSpiel verlassen §7§l»").build());
                                 ScoreboardManager.setIngameScoreboard(all);
 
