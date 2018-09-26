@@ -36,6 +36,7 @@ public class main extends JavaPlugin {
             randomMap2();
         }
     }
+    
 
     private static void randomMap2() {
         int rnd = BlueAPI.getRandom(Map.getMaps().size());
